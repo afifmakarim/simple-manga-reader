@@ -1,6 +1,56 @@
-.clock {
-    padding: 25px;
-    background: black;
-    color: white;
+.custom-cards img {
+    max-width: 100%;
+    height: 350px;
 }
 
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 5px;
+}
+
+.custom-cards {
+    border: 1px solid #eee;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-cards:hover {
+    cursor: pointer;
+    opacity: 0.4;
+    transition: ease-in-out 100ms;
+}
+
+.information {
+    display: grid;
+    grid-template-areas: 
+    "rating-box title title"
+    "rating-box description description";
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    background: #111;
+    height: 150px;
+}
+
+.rating-box {
+    grid-area: rating-box;
+    display: grid;
+    justify-self: center;
+    align-self: center;
+    padding: 5px;
+}
+
+.title {
+    grid-area: title;
+    display: grid;
+    text-align: center;
+    align-items: end;
+    padding: 5px;
+}
+
+.desc {
+    grid-area: description;
+    justify-self: center;
+    display: grid;
+}
