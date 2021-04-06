@@ -1,3 +1,5 @@
+import DataSource from "./datasource";
+
 const main = () => {
     
     const baseUrl = "https://kitsu.io/api/edge";
@@ -17,32 +19,52 @@ const main = () => {
           }
     }
 
-    // const renderAllBooks = (books) => {
-    //     const listBookElement = document.querySelector("#listBook");
-    //     listBookElement.innerHTML = "";
-
-    //     books.forEach(book => {
-    //         listBookElement.innerHTML += `
-    //             <div class="col-lg-4 col-md-6 col-sm-12" style="margin-top: 12px;">
-    //                 <div class="card">
-    //                     <div class="card-body">
-    //                         <h5>(${book.attributes.slug}) ${book.attributes.slug}</h5>
-    //                         <p>${book.attributes.slug}</p>
-    //                         <button type="button" class="btn btn-danger button-delete" id="${book.id}">Hapus</button>
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         `;
-    //     });
-
-    //     const buttons = document.querySelectorAll(".button-delete");
-    //     buttons.forEach(button => {
-    //         button.addEventListener("click", event => {
-    //             const bookId = event.target.id;
-    //             removeBook(bookId);
-    //         })
-    //     })
-    // };
+    const searchElement = document.querySelector("search-bar");
+    const clubListElement = document.querySelector("#searchlist");
+  
+    const onButtonSearchClicked = async () => {
+        try {
+            const result = await DataSource.searchManga(searchElement.value);
+            renderResult(result);
+        } catch (message) {
+            fallbackResult(message)
+        }
+    };
+  
+    const renderResult = results => {
+        clubListElement.innerHTML = "";
+        results.forEach(club => {
+            const { canonicalTitle, posterImage, description, averageRating } = club.attributes;
+            const clubElement = document.createElement("div");
+            clubElement.setAttribute("class", "club");
+  
+            clubElement.innerHTML = `
+                    <div class="custom-cards">
+                    <img src=${posterImage.original} alt="" >
+                    <div class="information">
+                        <div class="rating-box">
+                            <h5>&#9733; ${Math.round(averageRating)}</h5>
+                        </div>
+                        <div class="title">
+                            <h5>${canonicalTitle}</h5>
+                        </div>
+                        <div class="desc">
+                            <p>${description}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+  
+            clubListElement.appendChild(clubElement);
+        })
+    };
+  
+    const fallbackResult = message => {
+        clubListElement.innerHTML = "";
+        clubListElement.innerHTML += `<h2 class="placeholder">${message}</h2>`;
+    };
+  
+    searchElement.clickEvent = onButtonSearchClicked;
 
     const renderAllBooks = (books) => {
         const listBookElement = document.querySelector("#listBook");

@@ -54,3 +54,13 @@
     justify-self: center;
     display: grid;
 }
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-container [type=search] {
+    padding: 15px;
+    border: none;
+}
